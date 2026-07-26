@@ -24,15 +24,15 @@ export function SettingsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy-900">Settings</h1>
-        <p className="mt-1 text-sm text-navy-500">
+        <h1 className="text-2xl font-extrabold text-mist-50">Settings</h1>
+        <p className="mt-1 text-sm text-mist-500">
           Manage your account and explore what's next for myRoda.
         </p>
       </div>
 
       <Card className="p-5">
-        <h3 className="text-sm font-bold text-navy-800">Account</h3>
-        <p className="mt-2 text-sm text-navy-600">{user?.email}</p>
+        <h3 className="text-sm font-bold text-mist-100">Account</h3>
+        <p className="mt-2 text-sm text-mist-400">{user?.email}</p>
         <Button variant="secondary" size="sm" className="mt-4" onClick={handleLogout}>
           <LogOut size={15} /> Log out
         </Button>

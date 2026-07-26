@@ -104,7 +104,7 @@ export function ServiceForm({
       />
 
       <div>
-        <p className="text-sm font-medium text-navy-700">Parts & components replaced</p>
+        <p className="text-sm font-medium text-mist-300">Parts & components replaced</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {DEFAULT_SERVICE_COMPONENTS.map((name) => {
             const active = fields.some((f) => f.itemName === name)
@@ -116,8 +116,8 @@ export function ServiceForm({
                 className={clsx(
                   'rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
                   active
-                    ? 'border-navy-700 bg-navy-700 text-white'
-                    : 'border-mist-300 bg-white text-navy-600 hover:border-steel-400',
+                    ? 'border-transparent bg-gradient-to-r from-steel-400 to-steel-600 text-navy-950'
+                    : 'border-white/10 bg-white/5 text-mist-300 hover:border-steel-400',
                 )}
               >
                 {name}
@@ -142,9 +142,9 @@ export function ServiceForm({
             {fields.map((field, index) => (
               <div
                 key={field.id}
-                className="flex items-center gap-2 rounded-xl border border-mist-200 p-2.5"
+                className="flex items-center gap-2 rounded-xl border border-white/10 p-2.5"
               >
-                <span className="flex-1 truncate text-sm font-medium text-navy-800">
+                <span className="flex-1 truncate text-sm font-medium text-mist-100">
                   {field.itemName}
                 </span>
                 <Input
@@ -164,7 +164,7 @@ export function ServiceForm({
                 <button
                   type="button"
                   onClick={() => remove(index)}
-                  className="shrink-0 rounded-full p-1.5 text-navy-400 hover:bg-mist-100 hover:text-red-600"
+                  className="shrink-0 rounded-full p-1.5 text-mist-500 hover:bg-red-500/10 hover:text-red-400"
                   aria-label="Remove"
                 >
                   <X size={16} />

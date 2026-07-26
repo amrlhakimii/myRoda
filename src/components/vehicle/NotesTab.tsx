@@ -61,14 +61,14 @@ export function NotesTab({ vehicle }: { vehicle: Vehicle }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-bold text-navy-900">Notes</h2>
+        <h2 className="text-base font-bold text-mist-50">Notes</h2>
         <Button size="sm" onClick={openCreate}>
           <Plus size={16} /> Add note
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="h-24 animate-pulse rounded-2xl bg-mist-200" />
+        <div className="h-24 animate-pulse rounded-2xl bg-white/5" />
       ) : sorted.length === 0 ? (
         <EmptyState
           icon={<StickyNote size={28} />}
@@ -81,26 +81,26 @@ export function NotesTab({ vehicle }: { vehicle: Vehicle }) {
           {sorted.map((note) => (
             <Card key={note.id} className="p-4">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="font-bold text-navy-900">{note.title}</h3>
+                <h3 className="font-bold text-mist-50">{note.title}</h3>
                 <div className="flex shrink-0 items-center gap-1">
                   <button
                     onClick={() => openEdit(note)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-mist-100 hover:text-navy-700"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-white/10 hover:text-mist-100"
                     aria-label="Edit"
                   >
                     <Pencil size={14} />
                   </button>
                   <button
                     onClick={() => setDeletingNote(note)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-red-500/10 hover:text-red-400"
                     aria-label="Delete"
                   >
                     <Trash2 size={14} />
                   </button>
                 </div>
               </div>
-              <p className="mt-1.5 text-sm whitespace-pre-wrap text-navy-600">{note.content}</p>
-              <p className="mt-2 text-xs text-navy-400">{formatDate(note.createdAt)}</p>
+              <p className="mt-1.5 text-sm whitespace-pre-wrap text-mist-400">{note.content}</p>
+              <p className="mt-2 text-xs text-mist-500">{formatDate(note.createdAt)}</p>
             </Card>
           ))}
         </div>

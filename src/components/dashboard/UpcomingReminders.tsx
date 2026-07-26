@@ -21,7 +21,7 @@ export function UpcomingReminders({ reminders, vehicleNameById }: UpcomingRemind
   return (
     <Card className="p-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-navy-800">Upcoming reminders</h3>
+        <h3 className="text-sm font-bold text-mist-100">Upcoming reminders</h3>
         <Link to="/calendar" className="text-xs font-semibold text-steel-600 hover:text-steel-700">
           View calendar
         </Link>
@@ -35,13 +35,13 @@ export function UpcomingReminders({ reminders, vehicleNameById }: UpcomingRemind
             return (
               <li
                 key={reminder.id}
-                className="flex items-center justify-between rounded-xl bg-mist-50 px-3.5 py-2.5"
+                className="flex items-center justify-between rounded-xl bg-white/5 px-3.5 py-2.5"
               >
                 <div>
-                  <p className="text-sm font-semibold text-navy-800">
+                  <p className="text-sm font-semibold text-mist-100">
                     {reminder.label || REMINDER_TYPE_LABELS[reminder.type]}
                   </p>
-                  <p className="text-xs text-navy-400">
+                  <p className="text-xs text-mist-500">
                     {vehicleNameById.get(reminder.vehicleId)} · {formatDate(reminder.nextDueDate)}
                   </p>
                 </div>

@@ -44,7 +44,7 @@ export function VehicleDetailPage() {
   if (!isLoading && !vehicle) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <p className="text-navy-600">Vehicle not found.</p>
+        <p className="text-mist-400">Vehicle not found.</p>
         <Link to="/vehicles">
           <Button variant="secondary">Back to vehicles</Button>
         </Link>
@@ -53,7 +53,7 @@ export function VehicleDetailPage() {
   }
 
   if (!vehicle) {
-    return <div className="h-40 animate-pulse rounded-2xl bg-mist-200" />
+    return <div className="h-40 animate-pulse rounded-2xl bg-white/5" />
   }
 
   const Icon = vehicle.vehicleType === 'car' ? Car : Bike
@@ -86,20 +86,20 @@ export function VehicleDetailPage() {
       <div>
         <Link
           to="/vehicles"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-navy-500 hover:text-navy-700"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-mist-500 hover:text-mist-300"
         >
           <ArrowLeft size={15} /> All vehicles
         </Link>
         <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-700 text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-steel-400 to-steel-600 text-navy-950">
               <Icon size={22} />
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-navy-900">
+              <h1 className="text-2xl font-extrabold text-mist-50">
                 {vehicle.nickname || `${vehicle.brand} ${vehicle.model}`}
               </h1>
-              <p className="text-sm text-navy-500">
+              <p className="text-sm text-mist-500">
                 {VEHICLE_TYPE_LABELS[vehicle.vehicleType]} · {vehicle.registrationNumber}
               </p>
             </div>
@@ -118,7 +118,7 @@ export function VehicleDetailPage() {
         </div>
       </div>
 
-      <div className="scrollbar-none flex gap-1 overflow-x-auto border-b border-mist-200">
+      <div className="scrollbar-none flex gap-1 overflow-x-auto border-b border-white/8">
         {TABS.map((tab) => (
           <button
             key={tab}
@@ -126,8 +126,8 @@ export function VehicleDetailPage() {
             className={clsx(
               'shrink-0 border-b-2 px-4 py-2.5 text-sm font-semibold transition-colors',
               activeTab === tab
-                ? 'border-navy-700 text-navy-800'
-                : 'border-transparent text-navy-400 hover:text-navy-600',
+                ? 'border-steel-400 text-mist-100'
+                : 'border-transparent text-mist-500 hover:text-mist-400',
             )}
           >
             {TAB_LABELS[tab]}

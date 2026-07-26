@@ -76,7 +76,7 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-bold text-navy-900">Fuel tracker</h2>
+        <h2 className="text-base font-bold text-mist-50">Fuel tracker</h2>
         <Button size="sm" onClick={openCreate}>
           <Plus size={16} /> Add fuel record
         </Button>
@@ -85,7 +85,7 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
       {records.length > 0 && <ConsumptionStats records={records} />}
 
       {isLoading ? (
-        <div className="h-24 animate-pulse rounded-2xl bg-mist-200" />
+        <div className="h-24 animate-pulse rounded-2xl bg-white/5" />
       ) : sorted.length === 0 ? (
         <EmptyState
           icon={<FuelIcon size={28} />}
@@ -101,30 +101,30 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
               <Card key={record.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="font-bold text-navy-900">{record.petrolType}</p>
+                    <p className="font-bold text-mist-50">{record.petrolType}</p>
                     {record.petrolStation && <Badge tone="steel">{record.petrolStation}</Badge>}
                     {kmPerLitre !== null && kmPerLitre !== undefined && (
                       <Badge tone="blush">{kmPerLitre.toFixed(1)} km/L</Badge>
                     )}
                   </div>
-                  <p className="mt-0.5 text-sm text-navy-500">
+                  <p className="mt-0.5 text-sm text-mist-500">
                     {formatDate(record.date)} · {formatMileage(record.mileage)} · {record.litres.toFixed(1)} L
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg font-extrabold text-navy-900">
+                  <span className="text-lg font-extrabold text-mist-50">
                     {formatCurrency(record.totalPrice)}
                   </span>
                   <button
                     onClick={() => openEdit(record)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-mist-100 hover:text-navy-700"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-white/10 hover:text-mist-100"
                     aria-label="Edit"
                   >
                     <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => setDeletingRecord(record)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-red-500/10 hover:text-red-400"
                     aria-label="Delete"
                   >
                     <Trash2 size={15} />

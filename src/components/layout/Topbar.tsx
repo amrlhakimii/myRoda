@@ -22,7 +22,7 @@ export function Topbar() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-mist-200 bg-white/90 px-4 backdrop-blur sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/8 bg-navy-950/70 px-4 backdrop-blur-xl sm:px-6">
       <div className="md:hidden">
         <Logo variant="full" size={30} />
       </div>
@@ -30,23 +30,23 @@ export function Topbar() {
       <div className="relative">
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          className="flex items-center gap-2 rounded-full border border-mist-200 py-1 pl-1 pr-3 hover:bg-mist-100"
+          className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1 pr-3 pl-1 hover:bg-white/10"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-navy-700 text-sm font-bold text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-steel-400 to-steel-600 text-sm font-bold text-navy-950">
             {user?.email ? user.email[0]?.toUpperCase() : <UserIcon size={16} />}
           </span>
-          <span className="hidden max-w-40 truncate text-sm font-medium text-navy-800 sm:inline">
+          <span className="hidden max-w-40 truncate text-sm font-medium text-mist-100 sm:inline">
             {user?.email}
           </span>
-          <ChevronDown size={14} className="text-navy-400" />
+          <ChevronDown size={14} className="text-mist-500" />
         </button>
         {menuOpen && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-            <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-mist-200 bg-white shadow-soft-lg">
+            <div className="glass-surface absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl shadow-soft-lg">
               <button
                 onClick={handleLogout}
-                className="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50"
+                className="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-red-400 hover:bg-red-500/10"
               >
                 <LogOut size={16} /> Log out
               </button>

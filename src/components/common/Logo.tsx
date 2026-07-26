@@ -16,14 +16,10 @@ export function Logo({ variant = 'full', inverted = false, size = 36, className 
       <GaugeMark size={size} inverted={inverted} />
       {variant === 'full' && (
         <span
-          className={clsx(
-            'font-extrabold tracking-tight leading-none',
-            inverted ? 'text-mist-50' : 'text-navy-800',
-          )}
+          className="font-display font-extrabold tracking-tight leading-none text-mist-50"
           style={{ fontSize: size * 0.62 }}
         >
-          my
-          <span className={inverted ? 'text-blush-300' : 'text-steel-500'}>Roda</span>
+          my<span className="text-steel-300">Roda</span>
         </span>
       )}
     </span>

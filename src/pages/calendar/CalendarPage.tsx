@@ -37,8 +37,8 @@ export function CalendarPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy-900">Maintenance calendar</h1>
-        <p className="mt-1 text-sm text-navy-500">
+        <h1 className="text-2xl font-extrabold text-mist-50">Maintenance calendar</h1>
+        <p className="mt-1 text-sm text-mist-500">
           Every past service and upcoming due date, across all your vehicles.
         </p>
       </div>
@@ -62,7 +62,7 @@ export function CalendarPage() {
               )
             }}
           />
-          <div className="mt-4 flex items-center gap-4 text-xs text-navy-500">
+          <div className="mt-4 flex items-center gap-4 text-xs text-mist-500">
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-steel-500" /> Service done
             </span>
@@ -71,10 +71,10 @@ export function CalendarPage() {
             </span>
           </div>
 
-          <div className="mt-5 border-t border-mist-200 pt-4">
-            <h3 className="text-sm font-bold text-navy-800">{formatDate(selectedDate.toISOString())}</h3>
+          <div className="mt-5 border-t border-white/8 pt-4">
+            <h3 className="text-sm font-bold text-mist-100">{formatDate(selectedDate.toISOString())}</h3>
             {remindersOnDate.length === 0 && servicesOnDate.length === 0 ? (
-              <p className="mt-2 text-sm text-navy-500">Nothing recorded for this date.</p>
+              <p className="mt-2 text-sm text-mist-500">Nothing recorded for this date.</p>
             ) : (
               <div className="mt-3 flex flex-col gap-2">
                 {servicesOnDate.map((s) => (
@@ -82,8 +82,8 @@ export function CalendarPage() {
                     key={s.id}
                     className="flex items-center justify-between rounded-xl bg-steel-50 px-3.5 py-2.5 text-sm"
                   >
-                    <span className="font-medium text-navy-800">{s.workshopName}</span>
-                    <span className="text-navy-500">{vehicleNameById.get(s.vehicleId)}</span>
+                    <span className="font-medium text-mist-100">{s.workshopName}</span>
+                    <span className="text-mist-500">{vehicleNameById.get(s.vehicleId)}</span>
                   </div>
                 ))}
                 {remindersOnDate.map((r) => (
@@ -91,10 +91,10 @@ export function CalendarPage() {
                     key={r.id}
                     className="flex items-center justify-between rounded-xl bg-blush-50 px-3.5 py-2.5 text-sm"
                   >
-                    <span className="font-medium text-navy-800">
+                    <span className="font-medium text-mist-100">
                       {r.label || REMINDER_TYPE_LABELS[r.type]}
                     </span>
-                    <span className="text-navy-500">{vehicleNameById.get(r.vehicleId)}</span>
+                    <span className="text-mist-500">{vehicleNameById.get(r.vehicleId)}</span>
                   </div>
                 ))}
               </div>
@@ -103,7 +103,7 @@ export function CalendarPage() {
         </Card>
 
         <Card className="p-4">
-          <h3 className="text-sm font-bold text-navy-800">Upcoming reminders</h3>
+          <h3 className="text-sm font-bold text-mist-100">Upcoming reminders</h3>
           {upcoming.length === 0 ? (
             <EmptyState
               icon={<CalendarDays size={26} />}
@@ -115,14 +115,14 @@ export function CalendarPage() {
               {upcoming.map((reminder) => {
                 const urgency = reminderUrgency(reminder.nextDueDate)
                 return (
-                  <li key={reminder.id} className="rounded-xl bg-mist-50 px-3.5 py-2.5">
+                  <li key={reminder.id} className="rounded-xl bg-white/5 px-3.5 py-2.5">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-semibold text-navy-800">
+                      <p className="text-sm font-semibold text-mist-100">
                         {reminder.label || REMINDER_TYPE_LABELS[reminder.type]}
                       </p>
                       <Badge tone={URGENCY_TONE[urgency]}>{formatRelativeToToday(reminder.nextDueDate)}</Badge>
                     </div>
-                    <p className="mt-0.5 text-xs text-navy-400">
+                    <p className="mt-0.5 text-xs text-mist-500">
                       {vehicleNameById.get(reminder.vehicleId)} · {formatDate(reminder.nextDueDate)}
                     </p>
                   </li>

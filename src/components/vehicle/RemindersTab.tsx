@@ -92,14 +92,14 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-bold text-navy-900">Reminders</h2>
+        <h2 className="text-base font-bold text-mist-50">Reminders</h2>
         <Button size="sm" onClick={openCreate}>
           <Plus size={16} /> Add reminder
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="h-24 animate-pulse rounded-2xl bg-mist-200" />
+        <div className="h-24 animate-pulse rounded-2xl bg-white/5" />
       ) : sorted.length === 0 ? (
         <EmptyState
           icon={<BellRing size={28} />}
@@ -115,25 +115,25 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
               <Card key={reminder.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="font-bold text-navy-900">
+                    <p className="font-bold text-mist-50">
                       {reminder.label || REMINDER_TYPE_LABELS[reminder.type]}
                     </p>
                     <Badge tone="steel">{REMINDER_TYPE_LABELS[reminder.type]}</Badge>
                   </div>
-                  <p className="mt-0.5 text-sm text-navy-500">Due {formatDate(reminder.nextDueDate)}</p>
+                  <p className="mt-0.5 text-sm text-mist-500">Due {formatDate(reminder.nextDueDate)}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge tone={URGENCY_TONE[urgency]}>{formatRelativeToToday(reminder.nextDueDate)}</Badge>
                   <button
                     onClick={() => openEdit(reminder)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-mist-100 hover:text-navy-700"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-white/10 hover:text-mist-100"
                     aria-label="Edit"
                   >
                     <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => setDeletingReminder(reminder)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-red-500/10 hover:text-red-400"
                     aria-label="Delete"
                   >
                     <Trash2 size={15} />

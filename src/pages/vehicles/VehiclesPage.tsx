@@ -33,8 +33,8 @@ export function VehiclesPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy-900">Vehicles</h1>
-          <p className="mt-1 text-sm text-navy-500">Manage every car and motorcycle you own.</p>
+          <h1 className="text-2xl font-extrabold text-mist-50">Vehicles</h1>
+          <p className="mt-1 text-sm text-mist-500">Manage every car and motorcycle you own.</p>
         </div>
         <Button onClick={() => setModalOpen(true)}>
           <Plus size={18} /> Add vehicle
@@ -44,7 +44,7 @@ export function VehiclesPage() {
       {isLoading ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-28 animate-pulse rounded-2xl bg-mist-200" />
+            <div key={i} className="h-28 animate-pulse rounded-2xl bg-white/5" />
           ))}
         </div>
       ) : vehicles.length === 0 ? (

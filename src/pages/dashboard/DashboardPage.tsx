@@ -42,10 +42,10 @@ export function DashboardPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy-900">
+          <h1 className="text-2xl font-extrabold text-mist-50">
             {`Welcome back${user?.email ? `, ${user.email.split('@')[0]}` : ''}`}
           </h1>
-          <p className="mt-1 text-sm text-navy-500">Here's how your fleet is doing.</p>
+          <p className="mt-1 text-sm text-mist-500">Here's how your fleet is doing.</p>
         </div>
         <Link to="/vehicles">
           <Button>

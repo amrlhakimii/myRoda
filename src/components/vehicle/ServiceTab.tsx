@@ -78,14 +78,14 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-bold text-navy-900">Service history</h2>
+        <h2 className="text-base font-bold text-mist-50">Service history</h2>
         <Button size="sm" onClick={openCreate}>
           <Plus size={16} /> Add service record
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="h-24 animate-pulse rounded-2xl bg-mist-200" />
+        <div className="h-24 animate-pulse rounded-2xl bg-white/5" />
       ) : sorted.length === 0 ? (
         <EmptyState
           icon={<Wrench size={28} />}
@@ -100,30 +100,30 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="font-bold text-navy-900">{record.workshopName}</p>
+                    <p className="font-bold text-mist-50">{record.workshopName}</p>
                     <Badge tone="steel">{formatMileage(record.mileage)}</Badge>
                   </div>
-                  <p className="mt-0.5 text-sm text-navy-500">{formatDate(record.date)}</p>
+                  <p className="mt-0.5 text-sm text-mist-500">{formatDate(record.date)}</p>
                   {record.workshopLocation && (
-                    <p className="mt-1 flex items-center gap-1 text-xs text-navy-400">
+                    <p className="mt-1 flex items-center gap-1 text-xs text-mist-500">
                       <MapPin size={12} /> {record.workshopLocation}
                     </p>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg font-extrabold text-navy-900">
+                  <span className="text-lg font-extrabold text-mist-50">
                     {formatCurrency(record.totalCost)}
                   </span>
                   <button
                     onClick={() => openEdit(record)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-mist-100 hover:text-navy-700"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-white/10 hover:text-mist-100"
                     aria-label="Edit"
                   >
                     <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => setDeletingRecord(record)}
-                    className="rounded-full p-1.5 text-navy-400 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-full p-1.5 text-mist-500 hover:bg-red-500/10 hover:text-red-400"
                     aria-label="Delete"
                   >
                     <Trash2 size={15} />
@@ -131,7 +131,7 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
                 </div>
               </div>
               {record.items.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5 border-t border-mist-100 pt-3">
+                <div className="mt-3 flex flex-wrap gap-1.5 border-t border-white/8 pt-3">
                   {record.items.map((item) => (
                     <Badge key={item.id} tone="neutral">
                       {item.itemName}
@@ -140,7 +140,7 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
                   ))}
                 </div>
               )}
-              {record.notes && <p className="mt-2 text-sm text-navy-500">{record.notes}</p>}
+              {record.notes && <p className="mt-2 text-sm text-mist-500">{record.notes}</p>}
             </Card>
           ))}
         </div>

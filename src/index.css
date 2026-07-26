@@ -4,9 +4,13 @@
 @import '@fontsource/manrope/600.css';
 @import '@fontsource/manrope/700.css';
 @import '@fontsource/manrope/800.css';
+@import '@fontsource/syne/600.css';
+@import '@fontsource/syne/700.css';
+@import '@fontsource/syne/800.css';
 
 @theme {
   --font-sans: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Syne', system-ui, sans-serif;
 
   /* Brand core */
   --color-navy: #213c51;
@@ -63,29 +67,51 @@
   --color-mist-800: #3d3d3d;
   --color-mist-900: #262626;
 
-  --shadow-soft: 0 1px 2px rgba(16, 31, 43, 0.04), 0 8px 24px -8px rgba(16, 31, 43, 0.12);
-  --shadow-soft-lg: 0 4px 10px rgba(16, 31, 43, 0.06), 0 20px 40px -16px rgba(16, 31, 43, 0.18);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px -8px rgba(0, 0, 0, 0.45);
+  --shadow-soft-lg: 0 4px 16px rgba(0, 0, 0, 0.3), 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+  --shadow-glow-steel: 0 4px 24px -4px rgba(101, 148, 177, 0.35);
+  --shadow-glow-blush: 0 4px 24px -4px rgba(221, 174, 211, 0.3);
 
   --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-slide-up: slide-up 0.25s ease-out;
+  --animate-slide-up: slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-sheet-up: sheet-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-drift-a: drift-a 22s ease-in-out infinite alternate;
+  --animate-drift-b: drift-b 28s ease-in-out infinite alternate;
+  --animate-drift-c: drift-c 34s ease-in-out infinite alternate;
 
   @keyframes fade-in {
     from { opacity: 0; }
     to { opacity: 1; }
   }
   @keyframes slide-up {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes drift-a {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-6%, 8%) scale(1.1); }
+  }
+  @keyframes drift-b {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(8%, -6%) scale(0.92); }
+  }
+  @keyframes drift-c {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-5%, -8%) scale(1.05); }
   }
 }
 
 @layer base {
   html {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
-    @apply bg-mist-100 text-navy-900 font-sans antialiased;
+    @apply bg-navy-950 text-mist-100 font-sans antialiased;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -94,11 +120,32 @@
 
   #root {
     min-height: 100svh;
+    position: relative;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
   }
 
   ::selection {
-    background: var(--color-blush-300);
-    color: var(--color-navy-900);
+    background: rgba(101, 148, 177, 0.35);
+    color: var(--color-mist-50);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-navy-700);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-steel-600);
   }
 }
 
@@ -109,6 +156,13 @@
   .scrollbar-none {
     scrollbar-width: none;
   }
+
+  .glass-surface {
+    background: rgba(24, 44, 60, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }
 
 .myroda-calendar.react-calendar {
@@ -118,18 +172,18 @@
   background: transparent;
 }
 .myroda-calendar .react-calendar__navigation button {
-  color: var(--color-navy-800);
+  color: var(--color-mist-100);
   font-weight: 700;
   border-radius: 0.75rem;
 }
 .myroda-calendar .react-calendar__navigation button:enabled:hover,
 .myroda-calendar .react-calendar__navigation button:enabled:focus {
-  background: var(--color-mist-200);
+  background: rgba(255, 255, 255, 0.06);
 }
 .myroda-calendar .react-calendar__month-view__weekdays {
   font-size: 0.7rem;
   font-weight: 700;
-  color: var(--color-navy-400);
+  color: var(--color-mist-500);
   text-transform: uppercase;
 }
 .myroda-calendar .react-calendar__month-view__weekdays abbr {
@@ -138,20 +192,20 @@
 .myroda-calendar .react-calendar__tile {
   border-radius: 0.75rem;
   padding: 0.6rem 0.4rem;
-  color: var(--color-navy-800);
+  color: var(--color-mist-200);
 }
 .myroda-calendar .react-calendar__tile:enabled:hover,
 .myroda-calendar .react-calendar__tile:enabled:focus {
-  background: var(--color-steel-50);
+  background: rgba(101, 148, 177, 0.15);
 }
 .myroda-calendar .react-calendar__tile--now {
-  background: var(--color-blush-50);
+  background: rgba(221, 174, 211, 0.12);
   font-weight: 700;
 }
 .myroda-calendar .react-calendar__tile--active {
-  background: var(--color-navy-700) !important;
+  background: var(--color-steel-600) !important;
   color: white !important;
 }
 .myroda-calendar .react-calendar__month-view__days__day--neighboringMonth {
-  color: var(--color-mist-400);
+  color: var(--color-mist-700);
 }

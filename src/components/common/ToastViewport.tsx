@@ -9,9 +9,9 @@ const icons: Record<Toast['variant'], typeof CheckCircle2> = {
 }
 
 const toneClasses: Record<Toast['variant'], string> = {
-  success: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-  error: 'border-red-200 bg-red-50 text-red-800',
-  info: 'border-steel-200 bg-steel-50 text-navy-800',
+  success: 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300',
+  error: 'border-red-500/25 bg-red-500/10 text-red-300',
+  info: 'border-steel-500/25 bg-steel-500/10 text-steel-200',
 }
 
 export function ToastViewport() {
@@ -26,7 +26,7 @@ export function ToastViewport() {
           <div
             key={toast.id}
             className={clsx(
-              'animate-slide-up pointer-events-auto flex w-full max-w-sm items-start gap-2.5 rounded-xl border px-4 py-3 shadow-soft-lg',
+              'animate-slide-up pointer-events-auto flex w-full max-w-sm items-start gap-2.5 rounded-xl border px-4 py-3 shadow-soft-lg backdrop-blur-xl',
               toneClasses[toast.variant],
             )}
           >

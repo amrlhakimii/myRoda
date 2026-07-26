@@ -16,15 +16,15 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="truncate text-base font-bold text-navy-900">
+            <h3 className="truncate text-base font-bold text-mist-50">
               {vehicle.nickname || `${vehicle.brand} ${vehicle.model}`}
             </h3>
             <Badge tone="steel">{VEHICLE_TYPE_LABELS[vehicle.vehicleType]}</Badge>
           </div>
-          <p className="mt-0.5 truncate text-sm text-navy-500">
+          <p className="mt-0.5 truncate text-sm text-mist-500">
             {vehicle.brand} {vehicle.model} · {vehicle.year} · {vehicle.registrationNumber}
           </p>
-          <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-400">
+          <p className="mt-1 flex items-center gap-1 text-xs font-medium text-mist-500">
             <Gauge size={13} /> {formatMileage(vehicle.mileage)}
           </p>
         </div>

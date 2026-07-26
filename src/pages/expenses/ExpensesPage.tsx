@@ -49,8 +49,8 @@ export function ExpensesPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy-900">Expenses</h1>
-          <p className="mt-1 text-sm text-navy-500">Spending analytics across service and fuel.</p>
+          <h1 className="text-2xl font-extrabold text-mist-50">Expenses</h1>
+          <p className="mt-1 text-sm text-mist-500">Spending analytics across service and fuel.</p>
         </div>
         <Select
           value={selectedVehicleId}

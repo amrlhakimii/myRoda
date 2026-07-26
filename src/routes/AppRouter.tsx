@@ -34,7 +34,7 @@ export function AppRouter() {
           <Route
             path="/calendar"
             element={
-              <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-mist-200" />}>
+              <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-white/5" />}>
                 <CalendarPage />
               </Suspense>
             }
@@ -42,7 +42,7 @@ export function AppRouter() {
           <Route
             path="/expenses"
             element={
-              <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-mist-200" />}>
+              <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-white/5" />}>
                 <ExpensesPage />
               </Suspense>
             }

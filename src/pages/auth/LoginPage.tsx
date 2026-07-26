@@ -69,8 +69,8 @@ export function LoginPage() {
       >
         <GoogleIcon /> {isSubmitting ? 'Signing in…' : 'Continue with Google'}
       </Button>
-      {error && <p className="mt-4 text-center text-sm text-red-600">{error}</p>}
-      <p className="mt-8 text-center text-xs text-navy-400">
+      {error && <p className="mt-4 text-center text-sm text-red-400">{error}</p>}
+      <p className="mt-8 text-center text-xs text-mist-500">
         By continuing, you agree to let myRoda store your vehicle records under your Google
         account.
       </p>

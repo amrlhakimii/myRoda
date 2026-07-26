@@ -9,15 +9,15 @@ interface ComingSoonProps {
 
 export function ComingSoon({ title, description, icon }: ComingSoonProps) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-blush-200 bg-gradient-to-br from-blush-50 to-white px-6 py-10 text-center">
-      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blush-100 text-blush-700">
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-blush-400/20 bg-gradient-to-br from-blush-400/10 to-transparent px-6 py-10 text-center">
+      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blush-400/15 text-blush-300">
         {icon ?? <Sparkles size={20} />}
       </div>
-      <span className="rounded-full bg-navy-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+      <span className="rounded-full bg-gradient-to-r from-steel-400 to-steel-600 px-3 py-1 text-xs font-bold tracking-wide text-navy-950 uppercase">
         Coming soon
       </span>
-      <h3 className="text-base font-semibold text-navy-800">{title}</h3>
-      <p className="max-w-sm text-sm text-navy-500">{description}</p>
+      <h3 className="font-display text-base font-bold text-mist-100">{title}</h3>
+      <p className="max-w-sm text-sm text-mist-500">{description}</p>
     </div>
   )
 }
