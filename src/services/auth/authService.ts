@@ -1,24 +1,14 @@
-import {
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signOut,
-  type AuthError,
-} from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import { GoogleAuthProvider, signInWithPopup, signOut, type AuthError } from 'firebase/auth'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { auth, db, isFirebaseConfigured } from '@/services/firebase/config'
 
 const FRIENDLY_MESSAGES: Record<string, string> = {
-  'auth/email-already-in-use': 'An account with this email already exists.',
-  'auth/invalid-email': 'Enter a valid email address.',
-  'auth/invalid-credential': 'Incorrect email or password.',
-  'auth/wrong-password': 'Incorrect email or password.',
-  'auth/user-not-found': 'No account found with this email.',
-  'auth/weak-password': 'Password must be at least 6 characters.',
-  'auth/too-many-requests': 'Too many attempts. Try again in a few minutes.',
+  'auth/popup-closed-by-user': 'Sign-in was cancelled.',
+  'auth/popup-blocked': 'Your browser blocked the sign-in popup. Allow popups and try again.',
   'auth/network-request-failed': 'Network error. Check your connection and try again.',
-  'auth/operation-not-allowed':
-    'Email/Password sign-in is not enabled for this Firebase project yet. Enable it in Firebase console → Authentication → Sign-in method.',
+  'auth/operation-not-allowed': 'Google sign-in is not enabled for this Firebase project yet.',
+  'auth/unauthorized-domain':
+    'This domain is not authorized for sign-in. Add it under Firebase Authentication → Settings → Authorized domains.',
 }
 
 export class AuthServiceError extends Error {
@@ -43,25 +33,19 @@ function toFriendlyError(error: unknown): AuthServiceError {
   )
 }
 
-export async function registerWithEmail(email: string, password: string) {
+export async function loginWithGoogle() {
   assertConfigured()
   try {
-    const credential = await createUserWithEmailAndPassword(auth, email, password)
-    await setDoc(doc(db, 'users', credential.user.uid), {
-      uid: credential.user.uid,
-      email: credential.user.email,
-      createdAt: new Date().toISOString(),
-    })
-    return credential.user
-  } catch (error) {
-    throw toFriendlyError(error)
-  }
-}
-
-export async function loginWithEmail(email: string, password: string) {
-  assertConfigured()
-  try {
-    const credential = await signInWithEmailAndPassword(auth, email, password)
+    const credential = await signInWithPopup(auth, new GoogleAuthProvider())
+    const userRef = doc(db, 'users', credential.user.uid)
+    const existing = await getDoc(userRef)
+    if (!existing.exists()) {
+      await setDoc(userRef, {
+        uid: credential.user.uid,
+        email: credential.user.email,
+        createdAt: new Date().toISOString(),
+      })
+    }
     return credential.user
   } catch (error) {
     throw toFriendlyError(error)
@@ -71,13 +55,4 @@ export async function loginWithEmail(email: string, password: string) {
 export async function logout() {
   assertConfigured()
   await signOut(auth)
-}
-
-export async function resetPassword(email: string) {
-  assertConfigured()
-  try {
-    await sendPasswordResetEmail(auth, email)
-  } catch (error) {
-    throw toFriendlyError(error)
-  }
 }

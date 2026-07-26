@@ -4,8 +4,6 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { PublicOnlyRoute } from './PublicOnlyRoute'
 import { AppShell } from '@/components/layout/AppShell'
 import { LoginPage } from '@/pages/auth/LoginPage'
-import { RegisterPage } from '@/pages/auth/RegisterPage'
-import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { DashboardPage } from '@/pages/dashboard/DashboardPage'
 import { VehiclesPage } from '@/pages/vehicles/VehiclesPage'
 import { VehicleDetailPage } from '@/pages/vehicles/VehicleDetailPage'
@@ -24,9 +22,9 @@ export function AppRouter() {
     <Routes>
       <Route element={<PublicOnlyRoute />}>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Route>
+      <Route path="/register" element={<Navigate to="/login" replace />} />
+      <Route path="/reset-password" element={<Navigate to="/login" replace />} />
 
       <Route element={<ProtectedRoute />}>
         <Route element={<AppShell />}>
