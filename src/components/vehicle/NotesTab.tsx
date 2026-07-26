@@ -22,7 +22,6 @@ export function NotesTab({ vehicle }: { vehicle: Vehicle }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<MaintenanceNote | null>(null)
   const [deletingNote, setDeletingNote] = useState<MaintenanceNote | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   const sorted = [...notes].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 
@@ -36,34 +35,27 @@ export function NotesTab({ vehicle }: { vehicle: Vehicle }) {
     setModalOpen(true)
   }
 
-  async function handleSubmit(values: NoteFormValues) {
+  function handleSubmit(values: NoteFormValues) {
     if (!userId) return
-    try {
-      if (editingNote) {
-        await updateNote(editingNote.id, values)
-        pushToast('Note updated')
-      } else {
-        await createNote(userId, vehicle.id, values)
-        pushToast('Note added')
-      }
-      setModalOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to save note', 'error')
+    setModalOpen(false)
+    if (editingNote) {
+      updateNote(editingNote.id, values)
+        .then(() => pushToast('Note updated'))
+        .catch((error) => pushToast(error instanceof Error ? error.message : 'Failed to save note', 'error'))
+    } else {
+      createNote(userId, vehicle.id, values)
+        .then(() => pushToast('Note added'))
+        .catch((error) => pushToast(error instanceof Error ? error.message : 'Failed to save note', 'error'))
     }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!deletingNote) return
-    setIsDeleting(true)
-    try {
-      await deleteNote(deletingNote.id)
-      pushToast('Note removed')
-      setDeletingNote(null)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to remove note', 'error')
-    } finally {
-      setIsDeleting(false)
-    }
+    const note = deletingNote
+    setDeletingNote(null)
+    deleteNote(note.id)
+      .then(() => pushToast('Note removed'))
+      .catch((error) => pushToast(error instanceof Error ? error.message : 'Failed to remove note', 'error'))
   }
 
   return (
@@ -133,7 +125,6 @@ export function NotesTab({ vehicle }: { vehicle: Vehicle }) {
         description="This will permanently delete the note."
         confirmLabel="Delete note"
         danger
-        isLoading={isDeleting}
         onConfirm={handleDelete}
         onCancel={() => setDeletingNote(null)}
       />

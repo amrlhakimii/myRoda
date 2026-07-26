@@ -27,7 +27,6 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingReminder, setEditingReminder] = useState<Reminder | null>(null)
   const [deletingReminder, setDeletingReminder] = useState<Reminder | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   const sorted = [...reminders].sort((a, b) => a.nextDueDate.localeCompare(b.nextDueDate))
 
@@ -41,7 +40,7 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
     setModalOpen(true)
   }
 
-  async function handleSubmit(values: ReminderFormValues) {
+  function handleSubmit(values: ReminderFormValues) {
     if (!userId) return
     const nextDueDate = computeNextDueDate({
       basis: values.basis,
@@ -63,32 +62,31 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
       label: values.label,
       nextDueMileage,
     }
-    try {
-      if (editingReminder) {
-        await updateReminder(editingReminder.id, { ...input, nextDueDate })
-        pushToast('Reminder updated')
-      } else {
-        await createReminder(userId, vehicle.id, input, nextDueDate)
-        pushToast('Reminder set')
-      }
-      setModalOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to save reminder', 'error')
+    setModalOpen(false)
+    if (editingReminder) {
+      updateReminder(editingReminder.id, { ...input, nextDueDate })
+        .then(() => pushToast('Reminder updated'))
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save reminder', 'error'),
+        )
+    } else {
+      createReminder(userId, vehicle.id, input, nextDueDate)
+        .then(() => pushToast('Reminder set'))
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save reminder', 'error'),
+        )
     }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!deletingReminder) return
-    setIsDeleting(true)
-    try {
-      await deleteReminder(deletingReminder.id)
-      pushToast('Reminder removed')
-      setDeletingReminder(null)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to remove reminder', 'error')
-    } finally {
-      setIsDeleting(false)
-    }
+    const reminder = deletingReminder
+    setDeletingReminder(null)
+    deleteReminder(reminder.id)
+      .then(() => pushToast('Reminder removed'))
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to remove reminder', 'error'),
+      )
   }
 
   return (
@@ -166,7 +164,6 @@ export function RemindersTab({ vehicle }: { vehicle: Vehicle }) {
         description="This will permanently delete the reminder."
         confirmLabel="Delete reminder"
         danger
-        isLoading={isDeleting}
         onConfirm={handleDelete}
         onCancel={() => setDeletingReminder(null)}
       />

@@ -38,7 +38,6 @@ export function VehicleDetailPage() {
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [exportOpen, setExportOpen] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   const vehicle = vehicles.find((v) => v.id === vehicleId)
 
@@ -59,28 +58,27 @@ export function VehicleDetailPage() {
 
   const Icon = vehicle.vehicleType === 'car' ? Car : Bike
 
-  async function handleUpdate(values: VehicleFormValues) {
+  function handleUpdate(values: VehicleFormValues) {
     if (!vehicle) return
-    try {
-      await updateVehicle(vehicle.id, { ...values, nickname: values.nickname || undefined })
-      pushToast('Vehicle updated')
-      setEditOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to update vehicle', 'error')
-    }
+    setEditOpen(false)
+    updateVehicle(vehicle.id, { ...values, nickname: values.nickname || undefined })
+      .then(() => pushToast('Vehicle updated'))
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to update vehicle', 'error'),
+      )
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!vehicle) return
-    setIsDeleting(true)
-    try {
-      await deleteVehicleCascade(vehicle.id)
-      pushToast('Vehicle removed')
-      navigate('/vehicles')
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to remove vehicle', 'error')
-      setIsDeleting(false)
-    }
+    setDeleteOpen(false)
+    deleteVehicleCascade(vehicle.id)
+      .then(() => {
+        pushToast('Vehicle removed')
+        navigate('/vehicles')
+      })
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to remove vehicle', 'error'),
+      )
   }
 
   return (
@@ -167,7 +165,6 @@ export function VehicleDetailPage() {
         description="This permanently deletes the vehicle along with all of its service, fuel, reminder, and note history."
         confirmLabel="Delete vehicle"
         danger
-        isLoading={isDeleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteOpen(false)}
       />

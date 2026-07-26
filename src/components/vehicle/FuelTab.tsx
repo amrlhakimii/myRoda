@@ -26,7 +26,6 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingRecord, setEditingRecord] = useState<FuelRecord | null>(null)
   const [deletingRecord, setDeletingRecord] = useState<FuelRecord | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   const consumption = computeConsumption(records)
   const kmPerLitreByRecordId = new Map(consumption.map((e) => [e.record.id, e.kmPerLitre]))
@@ -42,35 +41,36 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
     setModalOpen(true)
   }
 
-  async function handleSubmit(values: FuelFormValues) {
+  function handleSubmit(values: FuelFormValues) {
     if (!userId) return
-    try {
-      if (editingRecord) {
-        await updateFuelRecord(editingRecord.id, values)
-        pushToast('Fuel record updated')
-      } else {
-        await createFuelRecord(userId, vehicle.id, values)
-        await bumpVehicleMileage(vehicle.id, vehicle.mileage, values.mileage)
-        pushToast('Fuel record added')
-      }
-      setModalOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to save fuel record', 'error')
+    setModalOpen(false)
+    if (editingRecord) {
+      updateFuelRecord(editingRecord.id, values)
+        .then(() => pushToast('Fuel record updated'))
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save fuel record', 'error'),
+        )
+    } else {
+      createFuelRecord(userId, vehicle.id, values)
+        .then(() => {
+          pushToast('Fuel record added')
+          return bumpVehicleMileage(vehicle.id, vehicle.mileage, values.mileage)
+        })
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save fuel record', 'error'),
+        )
     }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!deletingRecord) return
-    setIsDeleting(true)
-    try {
-      await deleteFuelRecord(deletingRecord.id)
-      pushToast('Fuel record removed')
-      setDeletingRecord(null)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to remove record', 'error')
-    } finally {
-      setIsDeleting(false)
-    }
+    const record = deletingRecord
+    setDeletingRecord(null)
+    deleteFuelRecord(record.id)
+      .then(() => pushToast('Fuel record removed'))
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to remove record', 'error'),
+      )
   }
 
   return (
@@ -155,7 +155,6 @@ export function FuelTab({ vehicle }: { vehicle: Vehicle }) {
         description="This will permanently delete the record."
         confirmLabel="Delete record"
         danger
-        isLoading={isDeleting}
         onConfirm={handleDelete}
         onCancel={() => setDeletingRecord(null)}
       />

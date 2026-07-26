@@ -28,7 +28,6 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingRecord, setEditingRecord] = useState<ServiceRecord | null>(null)
   const [deletingRecord, setDeletingRecord] = useState<ServiceRecord | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   const sorted = [...records].sort((a, b) => b.date.localeCompare(a.date))
 
@@ -42,37 +41,38 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
     setModalOpen(true)
   }
 
-  async function handleSubmit(values: ServiceFormValues) {
+  function handleSubmit(values: ServiceFormValues) {
     if (!userId) return
     const items = values.items.map((item) => ({ ...item, id: crypto.randomUUID() }))
     const payload = { ...values, items }
-    try {
-      if (editingRecord) {
-        await updateServiceRecord(editingRecord.id, payload)
-        pushToast('Service record updated')
-      } else {
-        await createServiceRecord(userId, vehicle.id, payload)
-        await bumpVehicleMileage(vehicle.id, vehicle.mileage, values.mileage)
-        pushToast('Service record added')
-      }
-      setModalOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to save service record', 'error')
+    setModalOpen(false)
+    if (editingRecord) {
+      updateServiceRecord(editingRecord.id, payload)
+        .then(() => pushToast('Service record updated'))
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save service record', 'error'),
+        )
+    } else {
+      createServiceRecord(userId, vehicle.id, payload)
+        .then(() => {
+          pushToast('Service record added')
+          return bumpVehicleMileage(vehicle.id, vehicle.mileage, values.mileage)
+        })
+        .catch((error) =>
+          pushToast(error instanceof Error ? error.message : 'Failed to save service record', 'error'),
+        )
     }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!deletingRecord) return
-    setIsDeleting(true)
-    try {
-      await deleteServiceRecord(deletingRecord.id)
-      pushToast('Service record removed')
-      setDeletingRecord(null)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to remove record', 'error')
-    } finally {
-      setIsDeleting(false)
-    }
+    const record = deletingRecord
+    setDeletingRecord(null)
+    deleteServiceRecord(record.id)
+      .then(() => pushToast('Service record removed'))
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to remove record', 'error'),
+      )
   }
 
   return (
@@ -166,7 +166,6 @@ export function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
         description="This will permanently delete the record and its parts list."
         confirmLabel="Delete record"
         danger
-        isLoading={isDeleting}
         onConfirm={handleDelete}
         onCancel={() => setDeletingRecord(null)}
       />

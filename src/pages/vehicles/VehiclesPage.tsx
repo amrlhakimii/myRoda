@@ -17,15 +17,16 @@ export function VehiclesPage() {
   const { data: vehicles, isLoading } = useVehicles()
   const pushToast = useToastStore((s) => s.push)
 
-  async function handleCreate(values: VehicleFormValues) {
+  function handleCreate(values: VehicleFormValues) {
     if (!userId) return
-    try {
-      await createVehicle(userId, { ...values, nickname: values.nickname || undefined })
-      pushToast('Vehicle added')
-      setModalOpen(false)
-    } catch (error) {
-      pushToast(error instanceof Error ? error.message : 'Failed to add vehicle', 'error')
-    }
+    // Close optimistically: Firestore reflects the write in the list instantly via
+    // onSnapshot — don't block the modal on the full server round-trip.
+    setModalOpen(false)
+    createVehicle(userId, { ...values, nickname: values.nickname || undefined })
+      .then(() => pushToast('Vehicle added'))
+      .catch((error) =>
+        pushToast(error instanceof Error ? error.message : 'Failed to add vehicle', 'error'),
+      )
   }
 
   return (
