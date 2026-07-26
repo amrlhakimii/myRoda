@@ -22,11 +22,11 @@ export function Topbar() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/8 bg-navy-950/70 px-4 backdrop-blur-xl sm:px-6">
-      <div className="md:hidden">
-        <Logo variant="full" size={30} />
-      </div>
-      <div className="hidden md:block" />
+    <header
+      className="sticky top-0 z-30 flex items-center justify-between border-b border-white/8 bg-navy-950/70 px-4 backdrop-blur-xl sm:px-6"
+      style={{ paddingTop: 'calc(env(safe-area-inset-top) + 0.75rem)', paddingBottom: '0.75rem' }}
+    >
+      <Logo variant="full" size={30} />
       <div className="relative">
         <button
           onClick={() => setMenuOpen((v) => !v)}
