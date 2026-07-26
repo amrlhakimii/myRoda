@@ -1,0 +1,157 @@
+@import 'tailwindcss';
+@import '@fontsource/manrope/400.css';
+@import '@fontsource/manrope/500.css';
+@import '@fontsource/manrope/600.css';
+@import '@fontsource/manrope/700.css';
+@import '@fontsource/manrope/800.css';
+
+@theme {
+  --font-sans: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* Brand core */
+  --color-navy: #213c51;
+  --color-steel: #6594b1;
+  --color-blush: #ddaed3;
+  --color-mist: #eeeeee;
+
+  /* Navy scale */
+  --color-navy-50: #eef2f5;
+  --color-navy-100: #d6e0e7;
+  --color-navy-200: #adc1cf;
+  --color-navy-300: #7d9cb3;
+  --color-navy-400: #517997;
+  --color-navy-500: #35597a;
+  --color-navy-600: #294a67;
+  --color-navy-700: #213c51;
+  --color-navy-800: #182c3c;
+  --color-navy-900: #101f2b;
+  --color-navy-950: #0a141c;
+
+  /* Steel scale */
+  --color-steel-50: #f1f6f9;
+  --color-steel-100: #e0ebf1;
+  --color-steel-200: #c1d7e3;
+  --color-steel-300: #9dbdd1;
+  --color-steel-400: #7fa8c1;
+  --color-steel-500: #6594b1;
+  --color-steel-600: #4f7a96;
+  --color-steel-700: #3f6279;
+  --color-steel-800: #324d61;
+  --color-steel-900: #283e4d;
+
+  /* Blush scale */
+  --color-blush-50: #fbf5fa;
+  --color-blush-100: #f6e9f3;
+  --color-blush-200: #efd8ea;
+  --color-blush-300: #e4bfdd;
+  --color-blush-400: #ddaed3;
+  --color-blush-500: #cd8dc0;
+  --color-blush-600: #b56ba6;
+  --color-blush-700: #965386;
+  --color-blush-800: #78426c;
+  --color-blush-900: #613758;
+
+  /* Mist / neutral scale */
+  --color-mist-50: #fbfbfb;
+  --color-mist-100: #f6f6f6;
+  --color-mist-200: #eeeeee;
+  --color-mist-300: #dcdcdc;
+  --color-mist-400: #c2c2c2;
+  --color-mist-500: #a3a3a3;
+  --color-mist-600: #7d7d7d;
+  --color-mist-700: #5c5c5c;
+  --color-mist-800: #3d3d3d;
+  --color-mist-900: #262626;
+
+  --shadow-soft: 0 1px 2px rgba(16, 31, 43, 0.04), 0 8px 24px -8px rgba(16, 31, 43, 0.12);
+  --shadow-soft-lg: 0 4px 10px rgba(16, 31, 43, 0.06), 0 20px 40px -16px rgba(16, 31, 43, 0.18);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-up: slide-up 0.25s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-mist-100 text-navy-900 font-sans antialiased;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+
+  ::selection {
+    background: var(--color-blush-300);
+    color: var(--color-navy-900);
+  }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+}
+
+.myroda-calendar.react-calendar {
+  width: 100%;
+  border: none;
+  font-family: var(--font-sans);
+  background: transparent;
+}
+.myroda-calendar .react-calendar__navigation button {
+  color: var(--color-navy-800);
+  font-weight: 700;
+  border-radius: 0.75rem;
+}
+.myroda-calendar .react-calendar__navigation button:enabled:hover,
+.myroda-calendar .react-calendar__navigation button:enabled:focus {
+  background: var(--color-mist-200);
+}
+.myroda-calendar .react-calendar__month-view__weekdays {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-navy-400);
+  text-transform: uppercase;
+}
+.myroda-calendar .react-calendar__month-view__weekdays abbr {
+  text-decoration: none;
+}
+.myroda-calendar .react-calendar__tile {
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.4rem;
+  color: var(--color-navy-800);
+}
+.myroda-calendar .react-calendar__tile:enabled:hover,
+.myroda-calendar .react-calendar__tile:enabled:focus {
+  background: var(--color-steel-50);
+}
+.myroda-calendar .react-calendar__tile--now {
+  background: var(--color-blush-50);
+  font-weight: 700;
+}
+.myroda-calendar .react-calendar__tile--active {
+  background: var(--color-navy-700) !important;
+  color: white !important;
+}
+.myroda-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: var(--color-mist-400);
+}

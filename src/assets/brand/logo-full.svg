@@ -1,0 +1,8 @@
+<svg width="220" height="56" viewBox="0 0 220 56" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="myRoda">
+  <rect x="0" y="0" width="56" height="56" rx="14" fill="#213C51"/>
+  <circle cx="28" cy="28" r="17.5" stroke="#6594B1" stroke-width="4.4" stroke-linecap="round" stroke-dasharray="82.47 27.49" transform="rotate(135 28 28)"/>
+  <line x1="28" y1="28" x2="38.9" y2="17.1" stroke="#DDAED3" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="38.9" cy="17.1" r="2.4" fill="#DDAED3"/>
+  <circle cx="28" cy="28" r="3.6" fill="#EEEEEE"/>
+  <text x="72" y="38" font-family="Manrope, system-ui, sans-serif" font-weight="800" font-size="28" letter-spacing="-0.5" fill="#213C51">my<tspan fill="#6594B1">Roda</tspan></text>
+</svg>
