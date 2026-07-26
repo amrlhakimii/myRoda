@@ -31,7 +31,12 @@ export function useFirestoreQuery<T>(queryKey: readonly unknown[], subscribe: Su
     if (!subscribe) return
     const unsubscribe = subscribe(
       (items) => queryClient.setQueryData(key, items),
-      (error) => pushToast(error.message || 'Failed to load data', 'error'),
+      (error) => {
+        // Resolve to empty instead of leaving `data` undefined forever, so the UI
+        // falls through to an empty state instead of an infinite skeleton.
+        queryClient.setQueryData(key, [])
+        pushToast(error.message || 'Failed to load data', 'error')
+      },
     )
     return unsubscribe
     // eslint-disable-next-line react-hooks/exhaustive-deps
