@@ -1,6 +1,10 @@
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentSingleTabManager,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -24,4 +28,12 @@ const app =
   )
 
 export const auth = getAuth(app)
-export const db = getFirestore(app)
+
+/**
+ * Persistent local cache (IndexedDB) means data renders instantly from cache on
+ * every load after the first, while onSnapshot syncs the latest in the background
+ * — without this, every page load was a cold network round-trip to Firestore.
+ */
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentSingleTabManager({}) }),
+})

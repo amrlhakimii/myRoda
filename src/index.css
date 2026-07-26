@@ -4,13 +4,10 @@
 @import '@fontsource/manrope/600.css';
 @import '@fontsource/manrope/700.css';
 @import '@fontsource/manrope/800.css';
-@import '@fontsource/syne/600.css';
-@import '@fontsource/syne/700.css';
-@import '@fontsource/syne/800.css';
 
 @theme {
   --font-sans: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Syne', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
 
   /* Brand core */
   --color-navy: #213c51;
@@ -124,7 +121,6 @@
   }
 
   h1, h2, h3 {
-    font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
 
