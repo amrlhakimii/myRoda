@@ -1,14 +1,29 @@
 import type { ServiceRecord, ServiceRecordInput } from '@/types/service'
-import { addDocument, removeDocument, subscribeWhere, updateDocument } from './firestoreHelpers'
+import {
+  addDocument,
+  removeDocument,
+  subscribeWhere,
+  subscribeWhereAll,
+  updateDocument,
+} from './firestoreHelpers'
 
 const COLLECTION = 'serviceRecords'
 
 export function subscribeToServiceRecords(
+  userId: string,
   vehicleId: string,
   callback: (records: ServiceRecord[]) => void,
   onError?: (error: Error) => void,
 ) {
-  return subscribeWhere<ServiceRecord>(COLLECTION, 'vehicleId', vehicleId, callback, onError)
+  return subscribeWhereAll<ServiceRecord>(
+    COLLECTION,
+    [
+      ['userId', userId],
+      ['vehicleId', vehicleId],
+    ],
+    callback,
+    onError,
+  )
 }
 
 export function subscribeToServiceRecordsByUser(

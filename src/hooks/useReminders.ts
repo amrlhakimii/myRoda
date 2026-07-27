@@ -7,9 +7,10 @@ import type { Reminder } from '@/types/reminder'
 import { useFirestoreQuery } from './useFirestoreQuery'
 
 export function useReminders(vehicleId?: string) {
+  const userId = useAuthStore((s) => s.user?.uid)
   return useFirestoreQuery<Reminder>(
     ['reminders', 'vehicle', vehicleId],
-    vehicleId ? (cb, onError) => subscribeToReminders(vehicleId, cb, onError) : null,
+    userId && vehicleId ? (cb, onError) => subscribeToReminders(userId, vehicleId, cb, onError) : null,
   )
 }
 

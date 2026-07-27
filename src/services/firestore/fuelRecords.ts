@@ -1,14 +1,29 @@
 import type { FuelRecord, FuelRecordInput } from '@/types/fuel'
-import { addDocument, removeDocument, subscribeWhere, updateDocument } from './firestoreHelpers'
+import {
+  addDocument,
+  removeDocument,
+  subscribeWhere,
+  subscribeWhereAll,
+  updateDocument,
+} from './firestoreHelpers'
 
 const COLLECTION = 'fuelRecords'
 
 export function subscribeToFuelRecords(
+  userId: string,
   vehicleId: string,
   callback: (records: FuelRecord[]) => void,
   onError?: (error: Error) => void,
 ) {
-  return subscribeWhere<FuelRecord>(COLLECTION, 'vehicleId', vehicleId, callback, onError)
+  return subscribeWhereAll<FuelRecord>(
+    COLLECTION,
+    [
+      ['userId', userId],
+      ['vehicleId', vehicleId],
+    ],
+    callback,
+    onError,
+  )
 }
 
 export function subscribeToFuelRecordsByUser(

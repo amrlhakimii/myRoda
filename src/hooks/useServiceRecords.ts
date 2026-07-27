@@ -7,9 +7,12 @@ import type { ServiceRecord } from '@/types/service'
 import { useFirestoreQuery } from './useFirestoreQuery'
 
 export function useServiceRecords(vehicleId?: string) {
+  const userId = useAuthStore((s) => s.user?.uid)
   return useFirestoreQuery<ServiceRecord>(
     ['serviceRecords', 'vehicle', vehicleId],
-    vehicleId ? (cb, onError) => subscribeToServiceRecords(vehicleId, cb, onError) : null,
+    userId && vehicleId
+      ? (cb, onError) => subscribeToServiceRecords(userId, vehicleId, cb, onError)
+      : null,
   )
 }
 

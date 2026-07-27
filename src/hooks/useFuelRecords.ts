@@ -7,9 +7,12 @@ import type { FuelRecord } from '@/types/fuel'
 import { useFirestoreQuery } from './useFirestoreQuery'
 
 export function useFuelRecords(vehicleId?: string) {
+  const userId = useAuthStore((s) => s.user?.uid)
   return useFirestoreQuery<FuelRecord>(
     ['fuelRecords', 'vehicle', vehicleId],
-    vehicleId ? (cb, onError) => subscribeToFuelRecords(vehicleId, cb, onError) : null,
+    userId && vehicleId
+      ? (cb, onError) => subscribeToFuelRecords(userId, vehicleId, cb, onError)
+      : null,
   )
 }
 

@@ -1,14 +1,29 @@
 import type { Reminder, ReminderInput } from '@/types/reminder'
-import { addDocument, removeDocument, subscribeWhere, updateDocument } from './firestoreHelpers'
+import {
+  addDocument,
+  removeDocument,
+  subscribeWhere,
+  subscribeWhereAll,
+  updateDocument,
+} from './firestoreHelpers'
 
 const COLLECTION = 'reminders'
 
 export function subscribeToReminders(
+  userId: string,
   vehicleId: string,
   callback: (reminders: Reminder[]) => void,
   onError?: (error: Error) => void,
 ) {
-  return subscribeWhere<Reminder>(COLLECTION, 'vehicleId', vehicleId, callback, onError)
+  return subscribeWhereAll<Reminder>(
+    COLLECTION,
+    [
+      ['userId', userId],
+      ['vehicleId', vehicleId],
+    ],
+    callback,
+    onError,
+  )
 }
 
 export function subscribeToRemindersByUser(

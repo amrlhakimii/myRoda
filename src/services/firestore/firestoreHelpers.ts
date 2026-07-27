@@ -33,8 +33,28 @@ export function subscribeWhere<T extends { id: string }>(
   callback: (items: T[]) => void,
   onError?: (error: Error) => void,
 ) {
+  return subscribeWhereAll<T>(collectionName, [[field, value]], callback, onError)
+}
+
+/**
+ * Filtering only by e.g. `vehicleId` isn't enough for Firestore to allow a list
+ * query under a rule like `resource.data.userId == request.auth.uid` — Firestore
+ * rejects the whole query upfront unless the query itself also equality-filters
+ * on the field the rule checks, since it can't otherwise prove every possible
+ * result would satisfy the rule. So vehicle-scoped collections must always be
+ * filtered by both `userId` and the scoping field.
+ */
+export function subscribeWhereAll<T extends { id: string }>(
+  collectionName: string,
+  conditions: Array<[string, string]>,
+  callback: (items: T[]) => void,
+  onError?: (error: Error) => void,
+) {
   const converter = makeConverter<T>()
-  const q = query(collection(db, collectionName).withConverter(converter), where(field, '==', value))
+  const q = query(
+    collection(db, collectionName).withConverter(converter),
+    ...conditions.map(([field, value]) => where(field, '==', value)),
+  )
   return onSnapshot(
     q,
     (snapshot) => callback(snapshot.docs.map((d) => d.data())),

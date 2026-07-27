@@ -1,14 +1,23 @@
 import type { MaintenanceNote, MaintenanceNoteInput } from '@/types/note'
-import { addDocument, removeDocument, subscribeWhere, updateDocument } from './firestoreHelpers'
+import { addDocument, removeDocument, subscribeWhereAll, updateDocument } from './firestoreHelpers'
 
 const COLLECTION = 'notes'
 
 export function subscribeToNotes(
+  userId: string,
   vehicleId: string,
   callback: (notes: MaintenanceNote[]) => void,
   onError?: (error: Error) => void,
 ) {
-  return subscribeWhere<MaintenanceNote>(COLLECTION, 'vehicleId', vehicleId, callback, onError)
+  return subscribeWhereAll<MaintenanceNote>(
+    COLLECTION,
+    [
+      ['userId', userId],
+      ['vehicleId', vehicleId],
+    ],
+    callback,
+    onError,
+  )
 }
 
 export function createNote(userId: string, vehicleId: string, input: MaintenanceNoteInput) {
