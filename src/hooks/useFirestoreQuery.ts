@@ -35,7 +35,8 @@ export function useFirestoreQuery<T>(queryKey: readonly unknown[], subscribe: Su
         // Resolve to empty instead of leaving `data` undefined forever, so the UI
         // falls through to an empty state instead of an infinite skeleton.
         queryClient.setQueryData(key, [])
-        pushToast(error.message || 'Failed to load data', 'error')
+        const source = key.filter(Boolean).join('/')
+        pushToast(`[${source}] ${error.message || 'Failed to load data'}`, 'error')
       },
     )
     return unsubscribe
