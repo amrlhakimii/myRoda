@@ -33,7 +33,13 @@ export const auth = getAuth(app)
  * Persistent local cache (IndexedDB) means data renders instantly from cache on
  * every load after the first, while onSnapshot syncs the latest in the background
  * — without this, every page load was a cold network round-trip to Firestore.
+ *
+ * databaseId defaults to "(default)" if VITE_FIREBASE_DATABASE_ID is unset — only
+ * needed when the Firestore database itself was created under a custom name
+ * instead of the default one.
  */
-export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({ tabManager: persistentSingleTabManager({}) }),
-})
+export const db = initializeFirestore(
+  app,
+  { localCache: persistentLocalCache({ tabManager: persistentSingleTabManager({}) }) },
+  import.meta.env.VITE_FIREBASE_DATABASE_ID || undefined,
+)
